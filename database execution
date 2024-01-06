@@ -52,12 +52,6 @@ CREATE TABLE Insurance (
     ExpiryDate DATE,
     FOREIGN KEY (PatientID) REFERENCES Patients(PatientID)
 );
-Explanation:
-1.	Patients table: Stores information about patients, including their ID, name, date of birth, gender, contact information, and address.
-2.	Doctors table: Contains details about doctors, such as their ID, name, specialty, contact information, and email.
-3.	MedicalHistory table: Records the medical history of patients, including the diagnosis, prescription, date of visit, and references to the patient and doctor.
-4.	Appointments table: Manages appointments with details such as appointment ID, patient ID, doctor ID, appointment date, and status. It references the patient and doctor tables.
-5.	Insurance table: Stores information about the insurance coverage of patients, including insurance ID, patient ID, insurance provider, policy number, policy holder name, and expiry date. It references the patient table.
 
 --inserting values into patients table
 INSERT INTO Patients (PatientID, FirstName, LastName, DateOfBirth, Gender, PhoneNumber, Address, BankAccountNumber)
@@ -73,8 +67,7 @@ VALUES
 (9, 'Ethan', 'Wilson', '1998-01-20', 'Male', '888-222-5555', '606 Oak Ln', '347890123456'),
 (10, 'Isabella', 'Taylor', '1987-06-08', 'Female', '777-555-3333', '707 Cedar Rd', '789012345890');
 select *from patients;
-output:
- 
+
 
 -- Insert 10 sample records into the Doctors table
 INSERT INTO Doctors (DoctorID, FirstName, LastName, Specialty, PhoneNumber, Email)
@@ -137,38 +130,31 @@ VALUES
 select *from insurance;
 
 
---Query-1:
-List patients with appointments between the dates '2023-01-01' and '2023-03-01':
+--Query-1: List patients with appointments between the dates '2023-01-01' and '2023-03-01':
 SELECT Patients.*, Appointments.AppointmentDate
 FROM Patients
 JOIN Appointments ON Patients.PatientID = Appointments.PatientID
 WHERE Appointments.AppointmentDate > '2023-01-01' AND Appointments.AppointmentDate < '2023-03-01';
 
---Query-2
-Retrieve patients with insurance information:
+--Query-2 Retrieve patients with insurance information:
 SELECT Patients.*, Insurance.InsuranceProvider, Insurance.PolicyNumber
 FROM Patients
 LEFT JOIN Insurance ON Patients.PatientID = Insurance.PatientID;
 
 
---Query-3:
-Count the number of appointments for each doctor:
+--Query-3: Count the number of appointments for each doctor:
 SELECT Doctors.FirstName, Doctors.LastName, COUNT(Appointments.AppointmentID) AS AppointmentCount
 FROM Doctors
 LEFT JOIN Appointments ON Doctors.DoctorID = Appointments.DoctorID
 GROUP BY Doctors.DoctorID;
 
---Query-4:
-Find patients without insurance:
+--Query-4: Find patients without insurance:
 SELECT Patients.*
 FROM Patients
 LEFT JOIN Insurance ON Patients.PatientID = Insurance.PatientID
 WHERE Insurance.InsuranceID IS NULL;
 
---Query-5:
- 
-Retrieve the latest medical history record for each patient:
-
+--Query-5: Retrieve the latest medical history record for each patient:
 SELECT Patients.*, MedicalHistory.*
 FROM Patients
 JOIN MedicalHistory ON Patients.PatientID = MedicalHistory.PatientID
@@ -178,18 +164,14 @@ WHERE (MedicalHistory.DateOfVisit, Patients.PatientID) IN
        GROUP BY PatientID);
 
 
---Query-6:
-List doctors and the total number of patients they have treated:
-
+--Query-6: List doctors and the total number of patients they have treated:
 SELECT Doctors.*, COUNT(MedicalHistory.RecordID) AS PatientsTreated
 FROM Doctors
 LEFT JOIN MedicalHistory ON Doctors.DoctorID = MedicalHistory.DoctorID
 GROUP BY Doctors.DoctorID;
 
 
---Query-7:
-Retrieve appointments with patient and doctor details:
- 
+--Query-7: Retrieve appointments with patient and doctor details: 
 SELECT Appointments.*, Patients.FirstName AS PatientFirstName, Patients.LastName AS PatientLastName,
        Doctors.FirstName AS DoctorFirstName, Doctors.LastName AS DoctorLastName
 FROM Appointments
@@ -197,15 +179,13 @@ JOIN Patients ON Appointments.PatientID = Patients.PatientID
 JOIN Doctors ON Appointments.DoctorID = Doctors.DoctorID;
 
 
---Query-8:
-Find the count of male and female patients.
+--Query-8: Find the count of male and female patients.
 SELECT
     COUNT(CASE WHEN Gender = 'Male' THEN 1 END) AS MaleCount,
     COUNT(CASE WHEN Gender = 'Female' THEN 1 END) AS FemaleCount
 FROM Patients;
 
---Query-9:
-Sort the patients by their age group:
+--Query-9: Sort the patients by their age group:
 SELECT
     CASE
         WHEN CAST(strftime('%Y', Patients.DateOfBirth) AS INTEGER) BETWEEN 0 AND 18 THEN 'Child'
@@ -216,8 +196,7 @@ SELECT
 FROM Patients
 GROUP BY AgeGroup;
 
---Query-10:
-Calculating the average age of patients using cursor.
+--Query-10: Calculating the average age of patients using cursor.
 -- Declare variables
 DECLARE total_age INT DEFAULT 0;
 DECLARE patient_count INT DEFAULT 0;
