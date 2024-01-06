@@ -1,0 +1,244 @@
+-- Patients table
+CREATE TABLE Patients (
+    PatientID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    DateOfBirth DATE,
+    Gender VARCHAR(10),
+    PhoneNumber VARCHAR(15),
+    Address VARCHAR(255)
+);
+
+-- Doctors table
+CREATE TABLE Doctors (
+    DoctorID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Specialty VARCHAR(100),
+    PhoneNumber VARCHAR(15),
+    Email VARCHAR(100)
+);
+
+-- MedicalHistory table
+CREATE TABLE MedicalHistory (
+    RecordID INT PRIMARY KEY,
+    PatientID INT,
+    DoctorID INT,
+    Diagnosis VARCHAR(255),
+    Prescription VARCHAR(255),
+    DateOfVisit DATE,
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID),
+    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID)
+);
+
+-- Appointments table
+CREATE TABLE Appointments (
+    AppointmentID INT PRIMARY KEY,
+    PatientID INT,
+    DoctorID INT,
+    AppointmentDate DATETIME,
+    Status VARCHAR(20),
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID),
+    FOREIGN KEY (DoctorID) REFERENCES Doctors(DoctorID)
+);
+
+-- Insurance table
+CREATE TABLE Insurance (
+    InsuranceID INT PRIMARY KEY,
+    PatientID INT,
+    InsuranceProvider VARCHAR(100),
+    PolicyNumber VARCHAR(50),
+    PolicyHolderName VARCHAR(100),
+    ExpiryDate DATE,
+    FOREIGN KEY (PatientID) REFERENCES Patients(PatientID)
+);
+Explanation:
+1.	Patients table: Stores information about patients, including their ID, name, date of birth, gender, contact information, and address.
+2.	Doctors table: Contains details about doctors, such as their ID, name, specialty, contact information, and email.
+3.	MedicalHistory table: Records the medical history of patients, including the diagnosis, prescription, date of visit, and references to the patient and doctor.
+4.	Appointments table: Manages appointments with details such as appointment ID, patient ID, doctor ID, appointment date, and status. It references the patient and doctor tables.
+5.	Insurance table: Stores information about the insurance coverage of patients, including insurance ID, patient ID, insurance provider, policy number, policy holder name, and expiry date. It references the patient table.
+
+--inserting values into patients table
+INSERT INTO Patients (PatientID, FirstName, LastName, DateOfBirth, Gender, PhoneNumber, Address, BankAccountNumber)
+VALUES
+   (1, 'John', 'Doe', '1990-05-15', 'Male', '123-456-7890', '123 Main St', '125678901234'),
+(2, 'Jane', 'Smith', '1985-08-22', 'Female', '987-654-3210', '456 Oak Ave', '567892345678'),
+(3, 'Michael', 'Johnson', '1978-11-10', 'Male', '555-123-4567', '789 Pine St', '901234789012'),
+(4, 'Emily', 'Williams', '1995-03-02', 'Female', '333-777-9999', '101 Cedar Rd', '345678901456'),
+(5, 'Christopher', 'Brown', '1982-09-18', 'Male', '444-888-2222', '202 Maple Ln', '781234567890'),
+(6, 'Olivia', 'Jones', '1989-12-05', 'Female', '111-333-5555', '303 Birch Blvd', '123456701234'),
+(7, 'Daniel', 'Davis', '1992-07-14', 'Male', '666-444-1111', '404 Elm St', '567890123457'),
+(8, 'Sophia', 'Miller', '1980-04-30', 'Female', '222-999-7777', '505 Pine Ave', '901234567812'),
+(9, 'Ethan', 'Wilson', '1998-01-20', 'Male', '888-222-5555', '606 Oak Ln', '347890123456'),
+(10, 'Isabella', 'Taylor', '1987-06-08', 'Female', '777-555-3333', '707 Cedar Rd', '789012345890');
+select *from patients;
+output:
+ 
+
+-- Insert 10 sample records into the Doctors table
+INSERT INTO Doctors (DoctorID, FirstName, LastName, Specialty, PhoneNumber, Email)
+VALUES
+    (1, 'Dr. James', 'Smith', 'Cardiologist', '111-222-3333', 'dr.james@example.com'),
+    (2, 'Dr. Emily', 'Johnson', 'Pediatrician', '222-333-4444', 'dr.emily@example.com'),
+    (3, 'Dr. Michael', 'Davis', 'Orthopedic Surgeon', '333-444-5555', 'dr.michael@example.com'),
+    (4, 'Dr. Sarah', 'Williams', 'Dermatologist', '444-555-6666', 'dr.sarah@example.com'),
+    (5, 'Dr. Brian', 'Miller', 'Neurologist', '555-666-7777', 'dr.brian@example.com'),
+    (6, 'Dr. Jessica', 'Brown', 'Gastroenterologist', '666-777-8888', 'dr.jessica@example.com'),
+    (7, 'Dr. David', 'Taylor', 'Ophthalmologist', '777-888-9999', 'dr.david@example.com'),
+    (8, 'Dr. Olivia', 'Anderson', 'Psychiatrist', '888-999-0000', 'dr.olivia@example.com'),
+    (9, 'Dr. Ethan', 'Wilson', 'ENT Specialist', '999-000-1111', 'dr.ethan@example.com'),
+    (10, 'Dr. Sophia', 'Jones', 'Urologist', '000-111-2222', 'dr.sophia@example.com');
+select *from doctors;
+ 
+-- Insert 10 sample records into the MedicalHistory table
+INSERT INTO MedicalHistory (RecordID, PatientID, DoctorID, Diagnosis, Prescription, DateOfVisit)
+VALUES
+    (1, 1, 1, 'Hypertension', 'Medication A', '2023-01-10'),
+    (2, 2, 3, 'Common Cold', 'Rest and fluids', '2023-02-15'),
+    (3, 3, 5, 'Fractured Arm', 'Casting and painkillers', '2023-03-20'),
+    (4, 4, 2, 'Eczema', 'Topical ointment', '2023-04-25'),
+    (5, 5, 6, 'Migraine', 'Prescription B', '2023-05-30'),
+    (6, 6, 8, 'Anxiety', 'Therapy sessions', '2023-06-05'),
+    (7, 7, 4, 'Cataracts', 'Surgery recommended', '2023-07-10'),
+    (8, 8, 7, 'Depression', 'Medication C', '2023-08-15'),
+    (9, 9, 9, 'Sinusitis', 'Antibiotics', '2023-09-20'),
+    (10, 10, 10, 'Urinary Tract Infection', 'Medication D', '2023-10-25');
+Select *from MedicalHistory;
+
+-- Insert 10 sample records into the Appointments table
+INSERT INTO Appointments (AppointmentID, PatientID, DoctorID, AppointmentDate, Status)
+VALUES
+    (1, 1, 1, '2023-01-15 10:00:00', 'Scheduled'),
+    (2, 2, 3, '2023-02-20 14:30:00', 'Completed'),
+    (3, 3, 5, '2023-03-25 11:15:00', 'Scheduled'),
+    (4, 4, 2, '2023-04-30 09:45:00', 'Cancelled'),
+    (5, 5, 6, '2023-06-05 16:00:00', 'Scheduled'),
+    (6, 6, 8, '2023-07-10 12:30:00', 'Completed'),
+    (7, 7, 4, '2023-08-15 13:45:00', 'Scheduled'),
+    (8, 8, 7, '2023-09-20 17:30:00', 'Scheduled'),
+    (9, 9, 9, '2023-10-25 10:30:00', 'Completed'),
+    (10, 10, 10, '2023-11-30 15:15:00', 'Scheduled');
+select *from appointments;
+
+-- Insert 10 sample records into the Insurance table
+INSERT INTO Insurance (InsuranceID, PatientID, InsuranceProvider, PolicyNumber, PolicyHolderName, ExpiryDate)
+VALUES
+    (1, 1, 'HealthInsure', 'HI123456', 'John Doe', '2023-12-31'),
+    (2, 2, 'CareGuard', 'CG789012', 'Jane Smith', '2023-11-30'),
+    (3, 3, 'SecureHealth', 'SH345678', 'Michael Johnson', '2023-10-31'),
+    (4, 4, 'WellCare', 'WC901234', 'Emily Williams', '2023-09-30'),
+    (5, 5, 'SafeInsure', 'SI567890', 'Christopher Brown', '2023-08-31'),
+    (6, 6, 'GuardianHealth', 'GH123456', 'Olivia Jones', '2023-07-31'),
+    (7, 7, 'AssureNet', 'AN789012', 'Daniel Davis', '2023-06-30'),
+    (8, 8, 'HealthShield', 'HS345678', 'Sophia Miller', '2023-05-31'),
+    (9, 9, 'ReliaCare', 'RC901234', 'Ethan Wilson', '2023-04-30'),
+    (10, 10, 'SureHealth', 'SH567890', 'Isabella Taylor', '2023-03-31');
+select *from insurance;
+
+
+--Query-1:
+List patients with appointments between the dates '2023-01-01' and '2023-03-01':
+SELECT Patients.*, Appointments.AppointmentDate
+FROM Patients
+JOIN Appointments ON Patients.PatientID = Appointments.PatientID
+WHERE Appointments.AppointmentDate > '2023-01-01' AND Appointments.AppointmentDate < '2023-03-01';
+
+--Query-2
+Retrieve patients with insurance information:
+SELECT Patients.*, Insurance.InsuranceProvider, Insurance.PolicyNumber
+FROM Patients
+LEFT JOIN Insurance ON Patients.PatientID = Insurance.PatientID;
+
+
+--Query-3:
+Count the number of appointments for each doctor:
+SELECT Doctors.FirstName, Doctors.LastName, COUNT(Appointments.AppointmentID) AS AppointmentCount
+FROM Doctors
+LEFT JOIN Appointments ON Doctors.DoctorID = Appointments.DoctorID
+GROUP BY Doctors.DoctorID;
+
+--Query-4:
+Find patients without insurance:
+SELECT Patients.*
+FROM Patients
+LEFT JOIN Insurance ON Patients.PatientID = Insurance.PatientID
+WHERE Insurance.InsuranceID IS NULL;
+
+--Query-5:
+ 
+Retrieve the latest medical history record for each patient:
+
+SELECT Patients.*, MedicalHistory.*
+FROM Patients
+JOIN MedicalHistory ON Patients.PatientID = MedicalHistory.PatientID
+WHERE (MedicalHistory.DateOfVisit, Patients.PatientID) IN
+      (SELECT MAX(DateOfVisit), PatientID
+       FROM MedicalHistory
+       GROUP BY PatientID);
+
+
+--Query-6:
+List doctors and the total number of patients they have treated:
+
+SELECT Doctors.*, COUNT(MedicalHistory.RecordID) AS PatientsTreated
+FROM Doctors
+LEFT JOIN MedicalHistory ON Doctors.DoctorID = MedicalHistory.DoctorID
+GROUP BY Doctors.DoctorID;
+
+
+--Query-7:
+Retrieve appointments with patient and doctor details:
+ 
+SELECT Appointments.*, Patients.FirstName AS PatientFirstName, Patients.LastName AS PatientLastName,
+       Doctors.FirstName AS DoctorFirstName, Doctors.LastName AS DoctorLastName
+FROM Appointments
+JOIN Patients ON Appointments.PatientID = Patients.PatientID
+JOIN Doctors ON Appointments.DoctorID = Doctors.DoctorID;
+
+
+--Query-8:
+Find the count of male and female patients.
+SELECT
+    COUNT(CASE WHEN Gender = 'Male' THEN 1 END) AS MaleCount,
+    COUNT(CASE WHEN Gender = 'Female' THEN 1 END) AS FemaleCount
+FROM Patients;
+
+--Query-9:
+Sort the patients by their age group:
+SELECT
+    CASE
+        WHEN CAST(strftime('%Y', Patients.DateOfBirth) AS INTEGER) BETWEEN 0 AND 18 THEN 'Child'
+        WHEN CAST(strftime('%Y', Patients.DateOfBirth) AS INTEGER) BETWEEN 19 AND 35 THEN 'Young Adult'
+        ELSE 'Adult'
+    END AS AgeGroup,
+    COUNT(*) AS PatientCount
+FROM Patients
+GROUP BY AgeGroup;
+
+--Query-10:
+Calculating the average age of patients using cursor.
+-- Declare variables
+DECLARE total_age INT DEFAULT 0;
+DECLARE patient_count INT DEFAULT 0;
+
+-- Declare and open a cursor
+DECLARE patient_cursor CURSOR FOR SELECT DateOfBirth FROM Patients;
+OPEN patient_cursor;
+
+-- Fetch data and calculate total age
+patient_loop: LOOP
+    FETCH patient_cursor INTO @dob;
+    IF done THEN
+        LEAVE patient_loop;
+    END IF;
+    SET total_age = total_age + DATEDIFF(CURRENT_DATE, @dob);
+    SET patient_count = patient_count + 1;
+END LOOP;
+
+-- Close the cursor
+CLOSE patient_cursor;
+
+-- Calculate average age
+SET @average_age = total_age / patient_count;
+SELECT @average_age AS AverageAge;
